@@ -63,21 +63,21 @@ class SecondActivity : ComponentActivity() {
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
                 Text(
-                    text = "The app should play the audio now. Follow the next steps to reproduce the issue:" +
-                            "\n 1. Open the recently running apps list" +
-                            "\n 2. Swipe this app away from the list",
+                    text = "The app should play the audio now. Follow the next steps to reproduce the issue:\n" +
+                            " 1. Open the recent apps list.\n" +
+                            " 2. Close this app by swiping it away.",
                     textAlign = TextAlign.Start
                 )
 
                 Text(
                     text = "Android 14" +
-                            "\nThe app will continue playing the audio as it is not terminated.",
+                            "\nThe app will continue playing the audio because it isn't terminated.",
                     modifier = Modifier.padding(top = 16.dp),
                     textAlign = TextAlign.Start)
 
                 Text(
                     text = "Android 13" +
-                            "\nThe app will always stop the audio as it is terminated completely.",
+                            "\nThe app will stop the audio as it is completely terminated.",
                     modifier = Modifier.padding(top = 16.dp),
                     textAlign = TextAlign.Start
                 )
