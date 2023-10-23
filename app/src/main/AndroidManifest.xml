@@ -2,13 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <application
-        android:name="com.enkoss.android14Issue.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -33,7 +27,5 @@
             android:name="com.enkoss.android14Issue.SecondActivity"
             android:exported="false"
             android:theme="@style/Theme.Android14IssueApp" />
-
-        <receiver android:name="com.enkoss.android14Issue.AlarmReceiver"/>
     </application>
 </manifest>

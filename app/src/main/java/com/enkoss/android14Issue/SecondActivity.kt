@@ -1,11 +1,9 @@
 package com.enkoss.android14Issue
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,14 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
+import com.enkoss.Android14IssueApp.R
 import com.enkoss.android14Issue.ui.theme.Android14IssueAppTheme
 
 class SecondActivity : ComponentActivity() {
 
-    private val notificationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        println("User granted notification permission: $isGranted")
-    }
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,9 +39,13 @@ class SecondActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        val postNotificationPermissionStatus = ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-        if (postNotificationPermissionStatus != PackageManager.PERMISSION_GRANTED) {
-            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        println("Start playing audio")
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(applicationContext, R.raw.titanium_170190)
+            mediaPlayer?.setOnCompletionListener { it.release() }
+        }
+        if (mediaPlayer?.isPlaying == false) {
+            mediaPlayer?.start()
         }
     }
 
@@ -55,17 +55,31 @@ class SecondActivity : ComponentActivity() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.TopCenter
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
                 Text(
-                    text = "All you need to do now is to close the app by swiping it away from the recent apps list. In a second after, the app will start playing audio.\n\nRemember: it is not always reproducible, please try several times.",
-                    modifier = Modifier.padding(bottom = 8.dp),
-                    textAlign = TextAlign.Center
+                    text = "The app should play the audio now. Follow the next steps to reproduce the issue:" +
+                            "\n 1. Open the recently running apps list" +
+                            "\n 2. Swipe this app away from the list",
+                    textAlign = TextAlign.Start
+                )
+
+                Text(
+                    text = "Android 14" +
+                            "\nThe app will continue playing the audio as it is not terminated.",
+                    modifier = Modifier.padding(top = 16.dp),
+                    textAlign = TextAlign.Start)
+
+                Text(
+                    text = "Android 13" +
+                            "\nThe app will always stop the audio as it is terminated completely.",
+                    modifier = Modifier.padding(top = 16.dp),
+                    textAlign = TextAlign.Start
                 )
             }
         }
